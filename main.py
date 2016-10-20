@@ -1,7 +1,7 @@
 import data_loader
 import kmeans
-
-#get the image filenames 
+# puneet's comment
+# get the image filenames 
 image_filenames, neutral_images = data_loader.get_file_names('data/Dataset_images', 4)
 fin_filenames = image_filenames + neutral_images
 print (len(fin_filenames))
