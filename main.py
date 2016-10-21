@@ -1,21 +1,21 @@
 import numpy as np
-import pandas as pd
-import src.data_loader as dl
-import src.feature_extraction as fe
+import cv2
 
+cap = cv2.VideoCapture(0)
 
-# get the image filenames 
-image_filenames, neutral_images = dl.get_file_names('data/Dataset_images', 4)
-fin_filenames = image_filenames + neutral_images
-print len(fin_filenames), 'files successfully extracted.\n'
+while(True):
+    # Capture frame-by-frame
+    ret, frame = cap.read()
 
-#now apply kmeans on these images 
-#for testing lets just on a subset 
+    cv2.imshow('Video Feed', frame)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+  
+    if cv2.waitKey(1) & 0xFF == ord('p'):
+    	predict(frame)
+    elif cv2.waitKey(1) & 0xFF == ord('q'):
+        break
 
-#get the descriptor dataframe
-labels_ = fe.kmeans(fin_filenames[:100], 20)
-print (len(labels_))
-
-
-
+# When everything done, release the capture
+cap.release()
+cv2.destroyAllWindows()
 
