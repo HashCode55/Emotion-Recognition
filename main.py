@@ -11,7 +11,7 @@ while(True):
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
   
     if cv2.waitKey(1) & 0xFF == ord('p'):
-    	predict(frame)
+    	print predict(frame)
     elif cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
