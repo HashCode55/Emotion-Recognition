@@ -1,8 +1,10 @@
 """
 Module for loading in the data
 """
-
 import os
+
+# TODO: 
+# Code clean up
 
 def get_file_names(file_path, num_files):
 
@@ -48,4 +50,18 @@ def get_emo_files(file_path):
         filenames += fin
     #get rid of the DS store files     
     filenames = [url for url in filenames if 'DS_Store' not in url]
-    return (filenames)    
+    return (filenames)   
+
+
+def make_label_series(filenames):
+    """
+    Makes a list of labels, extracting the info from filenames
+    :param filenames: list of filenames of the labels 
+    """
+    label_list = []
+    for file in filenames:
+        #open the file
+        with open(file, 'r') as emoLabel:
+            read_lab = emoLabel.read().split('   ')[1][:-1]
+            label_list.append(int(float(read_lab)))
+    return label_list      

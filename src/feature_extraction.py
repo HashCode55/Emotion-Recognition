@@ -12,15 +12,19 @@ import time
 #cv2.imwrite('surf_keypoints.jpg',img)
 #print (len(des))
 
-#TODO : work on bag of words and fisher vector approach 
+#TODO:
+# fisher vector approach 
+# pickle kmeans
 
 class feature_extraction(object):
 	"""
-	class containing the functions necessary for feature extraction 
+	Class containing the functions necessary for feature extraction 
 	"""
 	def __init__(self, filenames):
+		#image filenames 
 		self.filenames = filenames
 		self.kmeans_model = None 
+		#number of classes for kmeans 
 		self.num_classes = None
 
 	def export_keypoints(self, extractor = 'sift', hes_thresh = 4000):
@@ -77,20 +81,24 @@ class feature_extraction(object):
 
 		end = time.time()
 		#mark the ending time 
-		print 'Time taken - %f seconds' % (end-start)
+		print 'Time taken for kmeans - %f seconds' % (end-start)
 		#save this kmeans model for further use 
 		return (self.kmeans_model.labels_)
 
 
 	def bag_of_words(self):
 		"""
-		For creating a fixed sized vector 
+		Creates a bag of words dataframe for further usage in the 
+		svm model
 		- take one image 
 		- get its sift keypoints 
-		- classify each and every keypoint into one class using the 
-		  kmeans trained model
-		- make a fixed sized vector and add it in the final dataset list  
+		- get the keypoint classes 
+		- make the BoW vectors and append it to final_df
+		::returns final_df:: A dataframe 
 		"""	
+		print 'Building bag of words model...\n'
+		start = time.time()
+
 		final_df = []
 		for file in self.filenames:
 			img = cv2.imread(file)	
@@ -100,6 +108,9 @@ class feature_extraction(object):
 			#make a bow vector 
 			bow_vector = self.make_vector(predict_labels, self.num_classes)
 			final_df.append(bow_vector)
+
+		end = time.time()	
+		print 'Successfully built the BoW model.\n Time taken - %f seconds' % (end - start)
 
 		return pd.DataFrame(final_df)
 
@@ -113,7 +124,6 @@ class feature_extraction(object):
 	def make_dataframe(images):
 		"""
 		Converts the 3 dimentional array to a pandas data frame
-		:param images: the array containing descriptors of images 
 		"""
 		df = pd.DataFrame()
 		for image in images:
@@ -141,3 +151,4 @@ class feature_extraction(object):
 		for lab in labels:
 			bow_vector[lab] += 1
 		return bow_vector	
+		
