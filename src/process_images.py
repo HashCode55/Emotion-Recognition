@@ -42,20 +42,18 @@ def process_image(img = list()):
 	:param img: image matrix. Must be grayscale
 	::returns faces:: list contatining the cropped face images
 	"""
-	face_cascade = cv2.CascadeClassifier('C:\Users\Puneet\Anaconda2\Library\share\OpenCV\haarcascades\haarcascade_frontalface_default.xml')	
+	face_cascade = cv2.CascadeClassifier('/Users/mehul/opencv-3.0.0/build/share/OpenCV/haarcascades/haarcascade_frontalface_default.xml')	
+
 	faces_location = face_cascade.detectMultiScale(img, 1.3, 5)
-
 	faces = []
-	n = 3
-
+	
 	for (x,y,w,h) in faces_location:
-		crop_img = img[y:(y+h), x:(x+w)]
-		# convert_to_n_channel(crop_img, n) #convert grayscale image into n channel image
-		crop_img = cv2.resize(img, (128, 128))
-		crop_img = cv2.bilateralFilter(img,15,10,10)
-		crop_img = cv2.fastNlMeansDenoising(img,None,4,7,21)
-
-		faces.append(crop_img)
+		img = img[y:(y+h), x:(x+w)]
+		img = cv2.resize(img, (128, 128))
+		img = cv2.bilateralFilter(img,15,10,10)
+		img = cv2.fastNlMeansDenoising(img,None,4,7,21)
+		cv2.imshow('pi', img)		
+		faces.append(img)
 
 	return faces
 	

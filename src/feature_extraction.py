@@ -78,7 +78,7 @@ class feature_extraction(object):
 		print 'Getting the descriptor data...'
 		descriptors = self.export_keypoints()
 		print 'Data successfully fetched.\n'
-		print ('Applying kmeans on %d keypoints with number of clusters being %d \n'
+		print ('Applying kmeans on %d keypoints with number of clusters being %d'
 			% (descriptors.shape[0], num_classes))
 		self.kmeans_model = KMeans(n_clusters=num_classes, random_state=0)
 		self.kmeans_model.fit(descriptors)
@@ -107,7 +107,7 @@ class feature_extraction(object):
 		- make the BoW vectors and append it to final_df
 		::returns final_df:: A dataframe 
 		"""	
-		print 'Building bag of words model...\n'
+		print 'Building bag of words model...'
 		start = time.time()
 
 		final_df = []
@@ -121,7 +121,7 @@ class feature_extraction(object):
 			final_df.append(bow_vector)
 
 		end = time.time()	
-		print 'Successfully built the BoW model.\n Time taken - %f seconds' % (end - start)
+		print 'Successfully built the BoW model.\n\nTime taken - %f seconds\n' % (end - start)
 
 		return pd.DataFrame(final_df)
 
@@ -145,11 +145,11 @@ class feature_extraction(object):
 	@staticmethod 
 	def get_imagekeypoints(image):
 		"""
+		image is in grayscale
 		Similar to export_keypoints but just for one image 
 		"""	
 		sift_ = cv2.xfeatures2d.SIFT_create()
-		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-		_, des = sift_.detectAndCompute(gray, None)
+		_, des = sift_.detectAndCompute(image, None)
 		return des
 
 
