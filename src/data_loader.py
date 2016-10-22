@@ -1,5 +1,6 @@
 """
-Module for loading in the data
+The Slave.
+Module for loading in the data.
 """
 import os
 

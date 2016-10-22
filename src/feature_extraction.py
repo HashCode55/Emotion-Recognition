@@ -1,8 +1,13 @@
+"""
+The Engine.
+Module for extracting the features.
+"""
 import cv2
 import numpy as np
 from sklearn.cluster import KMeans 
 import pandas as pd 
 import time 
+import pickle 
 
 #SURF
 #surf = cv2.xfeatures2d.SURF_create(400)
@@ -81,8 +86,14 @@ class feature_extraction(object):
 
 		end = time.time()
 		#mark the ending time 
-		print 'Time taken for kmeans - %f seconds' % (end-start)
+		print 'Time taken for kmeans - %f seconds\n' % (end-start)
 		#save this kmeans model for further use 
+
+		# Pickle the model for further use 
+		output = open('kmeans_model.pkl', 'wb')
+		pickle.dump(self.kmeans_model, output)
+		output.close()
+
 		return (self.kmeans_model.labels_)
 
 

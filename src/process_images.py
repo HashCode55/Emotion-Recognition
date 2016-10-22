@@ -1,3 +1,7 @@
+"""
+The Slave.
+Module for processing the images.
+"""
 import os
 import cv2
 import numpy as np
