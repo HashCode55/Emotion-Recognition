@@ -19,7 +19,6 @@ import pickle
 
 #TODO:
 # fisher vector approach 
-# pickle kmeans
 
 class feature_extraction(object):
 	"""

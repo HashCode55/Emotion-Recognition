@@ -19,11 +19,10 @@ from sklearn.metrics import accuracy_score
 
 # TODO:
 # - Number of kmeans classes hardcoded 
-# - pickle svm model 
 # - Clean the code
 
 #global variables 
-LABELS = ['Neutral', 'Anger', 'Contempt', 'Disgust', 'Fear', 'Happy', 'Sad', 'Surprise']
+LABELS = ['Neutral', 'Anger', 'Happy', 'Sad', 'Surprise']
 NUM_CLASSES_FOR_KMEANS = 20
 TEST_SIZE = 0.3
 FILES_TO_EXTRACT_PER_LABEL = 4
@@ -65,6 +64,15 @@ neutral_labels = np.zeros(150)
 
 final_labels = np.append(label_rep, neutral_labels)
 
+# Get the appropriate data 
+
+# Delete the files corresponding to 2, 3, 4
+fin_filenames = [file for index, file in enumerate(fin_filenames) 
+                            if final_labels[index] not in [2, 3, 4]]
+# Delete the labels 
+final_labels = [label for label in final_labels 
+                            if label not in [2, 3, 4]]
+
 # train the kmeans with the whole dataset 
 fe = feature_extraction(fin_filenames)
 fe.kmeans(NUM_CLASSES_FOR_KMEANS)
@@ -81,6 +89,7 @@ final_df = fe.bag_of_words()
 
 X_train, X_test, y_train, y_test = train_test_split(
     		final_df, final_labels, test_size=TEST_SIZE, random_state=0)
+
 
 #####################
 # GRID SEARCH + SVM #

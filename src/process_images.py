@@ -13,7 +13,7 @@ def get_file_locations():
 	::returns file_locs:: 
 	"""
 	file_locs = []
-	for root, dirs, files in os.walk('C:/Users/Puneet/Desktop/x'):
+	for root, dirs, files in os.walk('/Users/mehul/Desktop/ED thorugh FD/data/Dataset_images'):
 		fin = list(map(lambda x : root+"/"+x, files))
 		file_locs += fin
 
@@ -27,13 +27,13 @@ def process_dataset():
 	processes the whole dataset
 	"""
 	image_locs = get_file_locations()
-
+	image_locs = image_locs[:5]
 	for image_loc in image_locs:
 		image_loc = image_loc.replace("\\", "/") 	
 		img = cv2.imread(image_loc, 0)
 		faces = process_image(img)
 		for face in faces:	
-			cv2.imwrite(image, face)
+			cv2.imwrite(image_loc, face)
 
 
 def process_image(img = list()):
@@ -49,10 +49,12 @@ def process_image(img = list()):
 	
 	for (x,y,w,h) in faces_location:
 		img = img[y:(y+h), x:(x+w)]
-		img = cv2.resize(img, (128, 128))
+		try:
+			img = cv2.resize(img, (256, 256))
+		except:
+			exit(1)
 		img = cv2.bilateralFilter(img,15,10,10)
 		img = cv2.fastNlMeansDenoising(img,None,4,7,21)
-		cv2.imshow('pi', img)		
 		faces.append(img)
 
 	return faces
